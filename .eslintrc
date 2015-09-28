@@ -1,0 +1,18 @@
+{
+  "extends" : "standard",
+  "env" : {
+    "browser" : true,
+    "node" : true,
+    "mocha" : true,
+    "jquery" : true
+  },
+  "rules" : {
+    "quotes" : [2, "single"],
+    "semi" : [2, "always"],
+    "indent": [2, 4],
+    "brace-style": [2, "stroustrup", { "allowSingleLine": false }]
+  },
+  "globals": {
+    "_": true
+  }
+}
