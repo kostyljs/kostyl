@@ -1,32 +1,60 @@
 {
   "name": "kostyl",
-  "version": "0.2.1",
-  "description": "stub",
-  "main": "dist/kostyl.js",
-  "scripts": {
-    "build": "webpack"
-  },
+  "version": "1.0.0",
+  "description": "Library for building simple user interfaces with React-like lifecycle",
+  "keywords": [
+    "babel",
+    "framework",
+    "interfaces",
+    "user interfaces",
+    "html",
+    "dom",
+    "browser"
+  ],
+  "author": "s3rious a.k.a Leonid Semenov <canismajor@kaschenka.ru>",
+  "license": "MIT",
+  "homepage": "https://github.com/s3rious/kostyl#readme",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/s3rious/kostyl.git"
   },
-  "author": "s3rious a.k.a Leonid Semenov <canismajor@kaschenka.ru>",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/s3rious/kostyl/issues"
   },
-  "homepage": "https://github.com/s3rious/kostyl#readme",
   "devDependencies": {
-    "eslint": "^1.5.1",
-    "eslint-config-standard": "^4.4.0",
-    "eslint-plugin-standard": "^1.3.1",
-    "webpack": "^1.12.2"
+    "babel-core": "^6.23.1",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.3.2",
+    "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "eslint": "^3.17.0",
+    "eslint-config-standard": "^7.0.0",
+    "eslint-plugin-jest": "^19.0.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^2.1.1",
+    "flow-bin": "^0.40.0",
+    "flow-typed": "^2.0.0",
+    "jest": "^19.0.2",
+    "lodash-webpack-plugin": "^0.11.2",
+    "rimraf": "^2.6.1",
+    "webpack": "^2.2.1",
+    "webpack-bundle-analyzer": "^2.3.0"
   },
   "dependencies": {
-    "json-stringify-safe": "^5.0.1"
+    "is-dom": "^1.0.9",
+    "lodash": "^4.17.4"
   },
-  "peerDependencies": {
-    "jquery": "^2.1.4",
-    "underscore": "^1.8.3"
+  "peerDependencies": {},
+  "main": "dist/kostyl.js",
+  "scripts": {
+    "clean": "rimraf dist/ coverage/",
+    "lint": "eslint src/**/*.js test/**/*.js",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "test": "jest && yarn run lint && npm run flow",
+    "bundle": "webpack src/kostyl.js dist/kostyl.js",
+    "build": "yarn run clean && yarn run test && yarn run bundle"
   }
 }

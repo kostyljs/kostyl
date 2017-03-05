@@ -1,18 +1,22 @@
 {
-  "extends" : "standard",
-  "env" : {
-    "browser" : true,
-    "node" : true,
-    "mocha" : true,
-    "jquery" : true
+  "parser": "babel-eslint",
+  "extends": [
+    "standard",
+    "plugin:jest/recommended"
+  ],
+  "plugins": [
+    "jest"
+  ],
+  "rules": {
+    "quotes": [2, "single"],
+    "semi": [2, "always"],
+    "operator-linebreak": [0],
+    "brace-style": [2, "stroustrup", { "allowSingleLine": true }]
   },
-  "rules" : {
-    "quotes" : [2, "single"],
-    "semi" : [2, "always"],
-    "indent": [2, 4],
-    "brace-style": [2, "stroustrup", { "allowSingleLine": false }]
-  },
-  "globals": {
-    "_": true
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true,
+    "jest/globals": true
   }
 }

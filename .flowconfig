@@ -1,0 +1,6 @@
+[ignore]
+/dist/
+
+[options]
+esproposal.decorators=ignore
+suppress_comment=\\(.\\|\n\\)*\\flow-disable
