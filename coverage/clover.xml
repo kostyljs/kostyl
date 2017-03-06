@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1488834580302" clover="3.2.0">
-  <project timestamp="1488834580303" name="All files">
+<coverage generated="1488836697499" clover="3.2.0">
+  <project timestamp="1488836697500" name="All files">
     <metrics statements="62" coveredstatements="59" conditionals="26" coveredconditionals="22" methods="20" coveredmethods="20" elements="108" coveredelements="101" complexity="0" loc="62" ncloc="62" packages="1" files="1" classes="1">
       <file name="component.js" path="/Users/s3rious/Documents/Projects/kostyl/src/component.js">
         <metrics statements="62" coveredstatements="59" conditionals="26" coveredconditionals="22" methods="20" coveredmethods="20"/>

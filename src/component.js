@@ -34,7 +34,7 @@ export default class Component {
 
   constructor (root: ?HTMLElement, initalState: ?Object) {
     if (root == null || !isDOM(root)) {
-      throw new Error(this.constructMessage('eventListener must be a dom element'));
+      throw new Error(this.constructMessage('root must be a dom element'));
     }
 
     this.componentWillMount();
