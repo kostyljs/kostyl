@@ -2,17 +2,18 @@
 import { flow, map, filter, merge } from 'lodash/fp';
 import isDOM from 'is-dom';
 
-type EventTuple = [Node, string, Function];
+type EventTuple = [string, Function, Node];
+type EventsArray = Array<EventTuple>;
 
 export default class Component {
   root: ?Node;
   state: Object;
-  events: Array<EventTuple>;
+  events: EventsArray;
 
   state = {};
   events = [];
 
-  constructor (root: Node, initalState: Object) {
+  constructor (root: Node, initalState: Object): void {
     if (!isDOM(root)) {
       throw new Error('root must be a dom element');
     }
@@ -24,23 +25,29 @@ export default class Component {
     this.componentDidMount();
   }
 
-  componentWillMount () {}
+  componentWillMount (): void {}
 
-  componentDidMount () {}
+  componentDidMount (): void {}
 
-  setState (newState: Object) {
+  setState (newState: Object): Object {
     const { state } = this;
-    this.state = merge(state, newState);
+    const mergedState: Object = merge(state, newState);
+    this.state = mergedState;
+    return mergedState;
   }
 
-  bindEvent (eventType: string, func: Function, eventListener: ?Node = this.root): Array<EventTuple> {
+  bindEvent (
+    eventType: string,
+    func: Function,
+    eventListener: ?Node = this.root
+  ): EventsArray {
     if (eventListener == null || !isDOM(eventListener)) {
       throw new Error('eventListener must be a dom element');
     }
 
     try {
       eventListener.addEventListener(eventType, func);
-      this.events.push([eventListener, eventType, func]);
+      this.events.push([eventType, func, eventListener]);
       return this.events;
     }
     catch (error) {
@@ -48,16 +55,22 @@ export default class Component {
     }
   }
 
-  unmount () {
+  unmount (): void {
     this.root = null;
 
-    this.events = flow(
-      map((eventTuple): null => {
-        const [ eventListener, eventType, func ] = eventTuple;
-        eventListener.removeEventListener(eventType, func);
-        return null;
-      }),
-      filter((i) => !i === null)
-    )(this.events);
+    const cleanEvents = (events: EventsArray): EventsArray => {
+      return flow(
+        map((eventTuple: EventTuple): null => {
+          const [ eventType, func, eventListener ] = eventTuple;
+          eventListener.removeEventListener(eventType, func);
+          return null;
+        }),
+        filter((i: ?EventTuple): boolean => {
+          return !i == null;
+        })
+      )(events);
+    };
+
+    this.events = cleanEvents(this.events);
   }
 };

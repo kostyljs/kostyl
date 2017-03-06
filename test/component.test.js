@@ -1,6 +1,10 @@
 import Component from '../src/component.js';
 
 describe('basic component life cycle', () => {
+  if (document == null || document.body == null) {
+    throw new Error('jsdom isn’t enabled');
+  }
+
   document.body.innerHTML = `
     <div
       data-component="Counter"
@@ -19,6 +23,10 @@ describe('basic component life cycle', () => {
   const node = document.querySelector('[data-component="Counter"]');
   let component;
   const initialState = { counter: 0 };
+
+  if (node == null) {
+    throw new Error('jsdom isn’t enabled');
+  }
 
   test('fails to mount on non node', () => {
     expect(() => {
@@ -50,17 +58,13 @@ describe('basic component life cycle', () => {
   });
 
   test('adds the event', () => {
-    component.bindEvent('click', () => {});
-    expect(component.events.length).toBe(1);
-  });
-
-  test('Event successfully works', () => {
-    let counter: number = 0;
-    const func = () => { counter++; };
+    const func = () => {
+      component.setState({ counter: component.state.counter + 1 });
+    };
     component.bindEvent('click', func);
     const event = new Event('click');
     node.dispatchEvent(event);
-    expect(counter).toBe(1);
+    expect(component.state.counter).toBe(2);
   });
 
   test('unmounts', () => {
@@ -68,13 +72,9 @@ describe('basic component life cycle', () => {
     expect(component.root).toBe(null);
   });
 
-  // test('events unbound after unmount', () => {
-  //   let counter: number = 0;
-  //   const func = () => { counter++; };
-  //   component.bindEvent('click', func);
-  //   component.unmount();
-  //   const event = new Event('click');
-  //   node.dispatchEvent(event);
-  //   expect(counter).toBe(0);
-  // });
+  test('events unbound after unmount', () => {
+    const event = new Event('click');
+    node.dispatchEvent(event);
+    expect(component.state.counter).toBe(2);
+  });
 });
