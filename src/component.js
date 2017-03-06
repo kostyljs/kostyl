@@ -1,27 +1,74 @@
 // @flow
-import { flow, map, filter, merge } from 'lodash/fp';
 import isDOM from 'is-dom';
+import deepmerge from 'deepmerge';
+import deepequal from 'deep-equal';
+import objectDiff from 'object-diff';
+import groupBy from 'group-by';
 
-type EventTuple = [string, Function, Node];
-type EventsArray = Array<EventTuple>;
+type State = { [key: any]: any };
+type Refs = { [key: string]: HTMLElement }
+type Event = [string, Function, HTMLElement] | null;
+type Events = Array<Event>;
+type Bindings = { [key: string]: Function };
 
 export default class Component {
-  root: ?Node;
-  state: Object;
-  events: EventsArray;
+  root: ?HTMLElement;
+  state: State;
+  refs: Refs;
+  events: Events;
+  bindings: Bindings;
 
-  state = {};
-  events = [];
+  constructMessage (message: string): string {
+    const name: string = this.constructor.name;
+    return `${name}: ${message}`;
+  }
 
-  constructor (root: Node, initalState: Object): void {
-    if (!isDOM(root)) {
-      throw new Error('root must be a dom element');
+  getStateFromData (stateJSON: ?string): State {
+    try {
+      return stateJSON == null ? {} : JSON.parse(stateJSON);
     }
+    catch (error) {
+      throw new Error(this.constructMessage('data-component-initialState contains not a valid JSON'));
+    }
+  }
+
+  constructor (root: ?HTMLElement, initalState: ?Object) {
+    if (root == null || !isDOM(root)) {
+      throw new Error(this.constructMessage('eventListener must be a dom element'));
+    }
+
     this.componentWillMount();
+
+    const stateJSON = root.getAttribute('data-component-initialState');
+
     this.root = root;
-    if (initalState) {
-      this.setState(initalState);
-    }
+    this.state = initalState || this.getStateFromData(stateJSON) || {};
+    this.events = [];
+    this.bindings = {};
+
+    const getRefs = (): Refs => {
+      if (this.root == null) { return {}; }
+      const refsNodeList: NodeList<HTMLElement> = this.root.querySelectorAll('[data-component-ref]');
+      const refsArray: Array<HTMLElement> = Array.prototype.slice.call(refsNodeList);
+      const groupedRefs: { [key: string]: Array<HTMLElement> } = (
+        groupBy(refsArray, (ref: HTMLElement): ?string => {
+          return ref.getAttribute('data-component-ref');
+        })
+      );
+      const finalRefs = ((): Refs => {
+        let final: Refs = {};
+        Object.keys(groupedRefs).forEach((k) => {
+          if (groupedRefs[k].length > 1) {
+            console.warn(this.constructMessage(`component have more than one '${k}' refs`));
+          }
+          final[k] = groupedRefs[k][0];
+        });
+        return final;
+      })();
+      return finalRefs;
+    };
+    Object.defineProperty(this, 'refs', ({ get: getRefs }: Object));
+
     this.componentDidMount();
   }
 
@@ -29,48 +76,81 @@ export default class Component {
 
   componentDidMount (): void {}
 
-  setState (newState: Object): Object {
-    const { state } = this;
-    const mergedState: Object = merge(state, newState);
-    this.state = mergedState;
-    return mergedState;
+  addBinding (keyOfState: string, action: Function): Bindings {
+    this.bindings = { ...this.bindings, [keyOfState]: action };
+    return this.bindings;
   }
 
-  bindEvent (
+  shouldComponentUpdate (nextState: ?Object): boolean {
+    const prevState: State = this.state;
+    return !deepequal(prevState, nextState);
+  }
+
+  setState (nextState: State): State {
+    const prevState: State = this.state;
+    const mergedState: Object = deepmerge(prevState, nextState);
+    const shouldUpdate = this.shouldComponentUpdate(nextState);
+    if (shouldUpdate) {
+      this.componentWillUpdate(mergedState);
+    }
+    this.state = mergedState;
+    if (shouldUpdate) {
+      const diffState = objectDiff(prevState, mergedState);
+      Object.keys(this.bindings).forEach((bindingName) => {
+        if (diffState.hasOwnProperty(bindingName)) {
+          this.bindings[bindingName](diffState[bindingName]);
+        }
+      });
+      this.componentDidUpdate(prevState);
+    }
+    return this.state;
+  }
+
+  componentWillUpdate (nextState: State): void {}
+
+  componentDidUpdate (prevState: State): void {}
+
+  addEvent (
     eventType: string,
-    func: Function,
-    eventListener: ?Node = this.root
-  ): EventsArray {
+    action: Function,
+    eventListener: ?HTMLElement = this.root
+  ): Events {
     if (eventListener == null || !isDOM(eventListener)) {
-      throw new Error('eventListener must be a dom element');
+      throw new Error(this.constructMessage('eventListener must be a dom element'));
     }
 
     try {
-      eventListener.addEventListener(eventType, func);
-      this.events.push([eventType, func, eventListener]);
+      eventListener.addEventListener(eventType, action);
+      this.events.push([eventType, action, eventListener]);
       return this.events;
     }
     catch (error) {
-      throw new Error(error);
+      throw new Error(this.constructMessage(error));
     }
   }
 
+  removeEvent (eventTuple: Event): Event {
+    if (eventTuple != null) {
+      const [ eventType, action, eventListener ] = eventTuple;
+      eventListener.removeEventListener(eventType, action);
+      eventTuple = null;
+    }
+    return eventTuple;
+  }
+
+  componentWillUnmount (): void {}
+
   unmount (): void {
+    this.componentWillUnmount();
+
+    this.events = (
+      this.events
+      .map(this.removeEvent)
+      .filter((i: Event): boolean => {
+        return !i == null;
+      })
+    );
+
     this.root = null;
-
-    const cleanEvents = (events: EventsArray): EventsArray => {
-      return flow(
-        map((eventTuple: EventTuple): null => {
-          const [ eventType, func, eventListener ] = eventTuple;
-          eventListener.removeEventListener(eventType, func);
-          return null;
-        }),
-        filter((i: ?EventTuple): boolean => {
-          return !i == null;
-        })
-      )(events);
-    };
-
-    this.events = cleanEvents(this.events);
   }
 };

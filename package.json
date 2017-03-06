@@ -25,7 +25,6 @@
     "babel-core": "^6.23.1",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.3.2",
-    "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-es2015": "^6.22.0",
@@ -38,14 +37,16 @@
     "flow-bin": "^0.40.0",
     "flow-typed": "^2.0.0",
     "jest": "^19.0.2",
-    "lodash-webpack-plugin": "^0.11.2",
     "rimraf": "^2.6.1",
     "webpack": "^2.2.1",
     "webpack-bundle-analyzer": "^2.3.0"
   },
   "dependencies": {
+    "deep-equal": "^1.0.1",
+    "deepmerge": "^1.3.2",
+    "group-by": "^0.0.1",
     "is-dom": "^1.0.9",
-    "lodash": "^4.17.4"
+    "object-diff": "^0.0.4"
   },
   "peerDependencies": {},
   "main": "dist/kostyl.js",
@@ -53,8 +54,8 @@
     "clean": "rimraf dist/ coverage/",
     "lint": "eslint src/**/*.js test/**/*.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
-    "test": "jest && yarn run lint && npm run flow",
-    "bundle": "webpack src/kostyl.js dist/kostyl.js",
+    "test": "jest --coverage && yarn run lint && npm run flow",
+    "bundle": "webpack",
     "build": "yarn run clean && yarn run test && yarn run bundle"
   }
 }

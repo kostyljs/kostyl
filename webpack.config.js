@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var path = require('path');
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -23,11 +22,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new LodashModuleReplacementPlugin(),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      generateStatsFile: true
-    }),
-    // new webpack.optimize.UglifyJsPlugin({ minimize: true })
+    new BundleAnalyzerPlugin({ analyzerMode: 'static', generateStatsFile: true }),
+    new webpack.optimize.UglifyJsPlugin({ minimize: true })
   ]
 };

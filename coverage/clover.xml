@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1488834580302" clover="3.2.0">
+  <project timestamp="1488834580303" name="All files">
+    <metrics statements="62" coveredstatements="59" conditionals="26" coveredconditionals="22" methods="20" coveredmethods="20" elements="108" coveredelements="101" complexity="0" loc="62" ncloc="62" packages="1" files="1" classes="1">
+      <file name="component.js" path="/Users/s3rious/Documents/Projects/kostyl/src/component.js">
+        <metrics statements="62" coveredstatements="59" conditionals="26" coveredconditionals="22" methods="20" coveredmethods="20"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="27" count="19" type="stmt"/>
+        <line num="28" count="19" type="stmt"/>
+        <line num="31" count="0" type="stmt"/>
+        <line num="36" count="26" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="40" count="25" type="stmt"/>
+        <line num="42" count="25" type="stmt"/>
+        <line num="44" count="25" type="stmt"/>
+        <line num="45" count="25" type="stmt"/>
+        <line num="46" count="25" type="stmt"/>
+        <line num="47" count="25" type="stmt"/>
+        <line num="49" count="25" type="stmt"/>
+        <line num="50" count="3" type="stmt"/>
+        <line num="51" count="2" type="stmt"/>
+        <line num="52" count="2" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="55" count="6" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
+        <line num="60" count="2" type="stmt"/>
+        <line num="61" count="6" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="64" count="6" type="stmt"/>
+        <line num="66" count="2" type="stmt"/>
+        <line num="68" count="2" type="stmt"/>
+        <line num="70" count="25" type="stmt"/>
+        <line num="72" count="25" type="stmt"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="81" count="1" type="stmt"/>
+        <line num="85" count="8" type="stmt"/>
+        <line num="86" count="8" type="stmt"/>
+        <line num="90" count="9" type="stmt"/>
+        <line num="91" count="9" type="stmt"/>
+        <line num="92" count="9" type="stmt"/>
+        <line num="93" count="9" type="stmt"/>
+        <line num="94" count="7" type="stmt"/>
+        <line num="96" count="9" type="stmt"/>
+        <line num="97" count="9" type="stmt"/>
+        <line num="98" count="7" type="stmt"/>
+        <line num="99" count="7" type="stmt"/>
+        <line num="100" count="5" type="stmt"/>
+        <line num="101" count="4" type="stmt"/>
+        <line num="104" count="7" type="stmt"/>
+        <line num="106" count="9" type="stmt"/>
+        <line num="118" count="5" type="stmt"/>
+        <line num="119" count="1" type="stmt"/>
+        <line num="122" count="4" type="stmt"/>
+        <line num="123" count="4" type="stmt"/>
+        <line num="124" count="4" type="stmt"/>
+        <line num="125" count="4" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="133" count="1" type="stmt"/>
+        <line num="134" count="1" type="stmt"/>
+        <line num="135" count="1" type="stmt"/>
+        <line num="136" count="1" type="stmt"/>
+        <line num="138" count="1" type="stmt"/>
+        <line num="144" count="4" type="stmt"/>
+        <line num="146" count="4" type="stmt"/>
+        <line num="150" count="1" type="stmt"/>
+        <line num="154" count="4" type="stmt"/>
+      </file>
+    </metrics>
+  </project>
+</coverage>

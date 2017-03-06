@@ -4,7 +4,6 @@
     "stage-0"
   ],
   "plugins": [
-    "lodash",
     "transform-decorators-legacy",
     "transform-flow-strip-types"
   ]
