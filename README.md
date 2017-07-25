@@ -33,5 +33,3 @@ Because you don't always need nothing more.
 [Hello world](http://jsbin.com/xisidi/52/edit?html,js,output)
 
 [Simple counter](http://jsbin.com/pidare/42/edit?html,js,output)
-
-[Form with step-by-step validation (by parsley)](http://jsbin.com/numufi/69/edit?html,js,output)
