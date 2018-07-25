@@ -1,6 +1,6 @@
 {
   "name": "kostyl",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Library for building simple user interfaces with React-like lifecycle",
   "keywords": [
     "babel",
@@ -37,6 +37,7 @@
     "flow-bin": "^0.40.0",
     "flow-typed": "^2.0.0",
     "jest": "^19.0.2",
+    "jest-cli": "^23.4.1",
     "rimraf": "^2.6.1",
     "webpack": "^2.2.1",
     "webpack-bundle-analyzer": "^2.3.0"

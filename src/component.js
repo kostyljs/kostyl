@@ -113,9 +113,12 @@ export default class Component {
   addEvent (
     eventType: string,
     action: Function,
-    eventListener: ?HTMLElement | ?Window = this.root
+    eventListener: ?HTMLElement | ?EventTarget = this.root
   ): Events {
-    if (eventListener == null || (eventListener !== window) && !isDOM(eventListener)) {
+    const isEmpty = eventListener == null;
+    const isEventTarget = (eventListener === window) || isDOM(eventListener);
+
+    if (isEmpty || !isEventTarget) {
       throw new Error(this.constructMessage('eventListener must be a dom element'));
     }
 
