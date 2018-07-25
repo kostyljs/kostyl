@@ -110,6 +110,15 @@ describe('component events', () => {
     expect(mockFn).toBeCalled();
   });
 
+  test('adds the event to window', () => {
+    const component = new Component(element);
+    const mockFn = jest.fn();
+    component.addEvent('scroll', mockFn, window);
+    const event = new Event('scroll');
+    window.dispatchEvent(event);
+    expect(mockFn).toBeCalled();
+  });
+
   test('adds the event on .componentDidMount', () => {
     const mockFn = jest.fn();
     class MockComponent extends Component {

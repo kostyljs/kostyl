@@ -1,6 +1,6 @@
 {
   "name": "kostyl",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Library for building simple user interfaces with React-like lifecycle",
   "keywords": [
     "babel",
@@ -50,6 +50,7 @@
   },
   "peerDependencies": {},
   "main": "dist/kostyl.js",
+  "types": "types/kostyl.d.ts",
   "scripts": {
     "clean": "rimraf dist/ coverage/",
     "lint": "eslint src/**/*.js test/**/*.js",
